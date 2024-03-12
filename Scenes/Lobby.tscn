@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp5r6mmwxhlrx"]
+
+[ext_resource type="Script" path="res://Scripts/Lobby.cs" id="1_dppeo"]
+
+[node name="Lobby" type="Node2D"]
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("1_dppeo")
+
+[node name="HostButton" type="Button" parent="."]
+offset_left = 486.0
+offset_top = 196.0
+offset_right = 642.0
+offset_bottom = 244.0
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="."]
+offset_left = 485.0
+offset_top = 258.0
+offset_right = 643.0
+offset_bottom = 306.0
+text = "Join"
+
+[connection signal="pressed" from="HostButton" to="Node" method="CreateGame" binds= [7000]]
+[connection signal="pressed" from="JoinButton" to="Node" method="JoinGame" binds= ["127.0.0.1", 7000]]
