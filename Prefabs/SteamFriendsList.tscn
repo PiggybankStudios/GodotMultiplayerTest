@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1up4ko2ck2p3"]
+
+[ext_resource type="Script" path="res://Scripts/SteamFriendsList.cs" id="1_m8f4a"]
+[ext_resource type="PackedScene" uid="uid://dt6vvte2qjjus" path="res://Prefabs/SteamFriendsListItem.tscn" id="2_0frsg"]
+
+[node name="SteamFriendsList" type="VBoxContainer" node_paths=PackedStringArray("List", "SearchBox", "SearchClearButton")]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 22.0
+offset_right = 291.0
+offset_bottom = -30.0
+grow_vertical = 2
+script = ExtResource("1_m8f4a")
+ItemPrefab = ExtResource("2_0frsg")
+List = NodePath("FriendsListScrollContainer/FriendsVBox")
+SearchBox = NodePath("SearchBoxContainer/SearchBox")
+SearchClearButton = NodePath("SearchBoxContainer/SearchClearBtn")
+
+[node name="SearchBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SearchBox" type="TextEdit" parent="SearchBoxContainer"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search..."
+
+[node name="SearchClearBtn" type="Button" parent="SearchBoxContainer"]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+focus_mode = 0
+text = "X"
+
+[node name="FriendsListScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FriendsVBox" type="VBoxContainer" parent="FriendsListScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = -1

@@ -15,6 +15,10 @@ run/main_scene="res://Scenes/Lobby.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SteamManager="*res://Prefabs/SteamManager.tscn"
+
 [dotnet]
 
 project/assembly_name="GodotMultiplayerTest"

@@ -1,25 +1,99 @@
-[gd_scene load_steps=2 format=3 uid="uid://bp5r6mmwxhlrx"]
+[gd_scene load_steps=4 format=3 uid="uid://bp5r6mmwxhlrx"]
 
-[ext_resource type="Script" path="res://Scripts/Lobby.cs" id="1_dppeo"]
+[ext_resource type="Script" path="res://Scenes/LobbyManager.cs" id="1_c72lm"]
+[ext_resource type="PackedScene" uid="uid://bgmckmfrjrdev" path="res://Scenes/Game.tscn" id="2_utvt7"]
+[ext_resource type="PackedScene" uid="uid://b1up4ko2ck2p3" path="res://Prefabs/SteamFriendsList.tscn" id="3_pltr4"]
 
-[node name="Lobby" type="Node2D"]
+[node name="Lobby" type="Node2D" node_paths=PackedStringArray("NameTextbox", "IpAddressTextbox", "PortTextbox", "HostButton", "JoinButton", "JoinFriendButton", "InviteFriendButton", "AcceptInviteButton", "StartSteamServerButton", "FriendsList")]
+script = ExtResource("1_c72lm")
+MainGameScene = ExtResource("2_utvt7")
+NameTextbox = NodePath("NameTb")
+IpAddressTextbox = NodePath("IpAddressTb")
+PortTextbox = NodePath("PortTb")
+HostButton = NodePath("HostBtn")
+JoinButton = NodePath("JoinBtn")
+JoinFriendButton = NodePath("JoinFriendBtn")
+InviteFriendButton = NodePath("InviteFriendBtn")
+AcceptInviteButton = NodePath("AcceptInviteBtn")
+StartSteamServerButton = NodePath("StartSteamServerBtn")
+FriendsList = NodePath("SteamFriendsList")
 
-[node name="Node" type="Node" parent="."]
-script = ExtResource("1_dppeo")
-
-[node name="HostButton" type="Button" parent="."]
+[node name="HostBtn" type="Button" parent="."]
 offset_left = 486.0
 offset_top = 196.0
 offset_right = 642.0
 offset_bottom = 244.0
 text = "Host"
 
-[node name="JoinButton" type="Button" parent="."]
+[node name="JoinBtn" type="Button" parent="."]
 offset_left = 485.0
 offset_top = 258.0
 offset_right = 643.0
 offset_bottom = 306.0
 text = "Join"
 
-[connection signal="pressed" from="HostButton" to="Node" method="CreateGame" binds= [7000]]
-[connection signal="pressed" from="JoinButton" to="Node" method="JoinGame" binds= ["127.0.0.1", 7000]]
+[node name="JoinFriendBtn" type="Button" parent="."]
+offset_left = 485.0
+offset_top = 318.0
+offset_right = 643.0
+offset_bottom = 366.0
+text = "Join Friend"
+
+[node name="InviteFriendBtn" type="Button" parent="."]
+offset_left = 485.0
+offset_top = 377.0
+offset_right = 643.0
+offset_bottom = 425.0
+text = "Invite Friend"
+
+[node name="AcceptInviteBtn" type="Button" parent="."]
+offset_left = 485.0
+offset_top = 439.0
+offset_right = 643.0
+offset_bottom = 487.0
+text = "Accept Invite"
+
+[node name="StartSteamServerBtn" type="Button" parent="."]
+offset_left = 486.0
+offset_top = 500.0
+offset_right = 644.0
+offset_bottom = 548.0
+text = "Start Steam Server"
+
+[node name="NameTb" type="TextEdit" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 457.0
+offset_top = 31.0
+offset_right = 691.0
+offset_bottom = 67.0
+grow_horizontal = 2
+text = "Taylor"
+
+[node name="IpAddressTb" type="TextEdit" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 457.0
+offset_top = 76.0
+offset_right = 691.0
+offset_bottom = 112.0
+grow_horizontal = 2
+text = "localhost"
+
+[node name="PortTb" type="TextEdit" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 457.0
+offset_top = 121.0
+offset_right = 691.0
+offset_bottom = 157.0
+grow_horizontal = 2
+text = "7700"
+
+[node name="SteamFriendsList" parent="." instance=ExtResource("3_pltr4")]
+offset_top = 19.0
+offset_bottom = 631.0
+RefreshPeriodSecs = 5.0

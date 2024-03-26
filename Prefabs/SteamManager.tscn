@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://fvjrwshg7bct"]
+
+[ext_resource type="Script" path="res://Scripts/SteamManager.cs" id="1_hah21"]
+[ext_resource type="Texture2D" uid="uid://blmjs6swevg7m" path="res://UI/Icons/steam_icon_64.png" id="1_xn7ug"]
+
+[node name="HBoxContainer" type="HBoxContainer" node_paths=PackedStringArray("SteamStatusLabel", "AnimatedContainer")]
+custom_minimum_size = Vector2(100, 32)
+offset_left = 9.0
+offset_top = 607.0
+offset_right = 154.0
+offset_bottom = 642.0
+script = ExtResource("1_hah21")
+RestartAppId = 1103550
+SteamStatusLabel = NodePath("SteamStatusText")
+AnimatedContainer = NodePath(".")
+SuccessStatusDisappearTimeMs = 3000.0
+FailureStatusDisappearTimeMs = 10000.0
+
+[node name="SteamIcon" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.784314)
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("1_xn7ug")
+expand_mode = 1
+
+[node name="SteamStatusText" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 2
+text = "[Initializing...]"

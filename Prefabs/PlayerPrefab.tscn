@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://bj46bvo8au5lj"]
+
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_ix4tb"]
+[ext_resource type="PackedScene" uid="uid://fecu2gp21dd6" path="res://Prefabs/Bullet.tscn" id="2_mxa5g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2lsow"]
+albedo_color = Color(1, 0.309804, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wv5x8"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gbkri"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath(".:Id")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath(".:DisplayName")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+
+[node name="Player" type="MeshInstance3D" node_paths=PackedStringArray("NameLabel", "Synchronizer")]
+material_override = SubResource("StandardMaterial3D_2lsow")
+mesh = SubResource("BoxMesh_wv5x8")
+script = ExtResource("1_ix4tb")
+NameLabel = NodePath("Label3D")
+DisplayName = "[None]"
+Synchronizer = NodePath("MultiplayerSynchronizer")
+BulletPrefab = ExtResource("2_mxa5g")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 1
+text = "[Loading...]"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_gbkri")

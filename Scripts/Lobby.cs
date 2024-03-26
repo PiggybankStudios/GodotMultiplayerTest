@@ -1,6 +1,8 @@
 using Godot;
+using GodotSteam;
 using System;
 using System.Collections.Generic;
+using System.Security;
 using System.Transactions;
 
 //Reference: https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html#example-lobby-implementation
@@ -122,6 +124,7 @@ public partial class Lobby : Node
 	private void HandleConnectedToServer()
 	{
 		var peerId = Multiplayer.GetUniqueId();
+		myInfo.id = peerId;
 		players[peerId] = myInfo;
 		//TODO: Emit PlayerConnected signal?
 	}

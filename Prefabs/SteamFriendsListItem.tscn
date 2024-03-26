@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://dt6vvte2qjjus"]
+
+[ext_resource type="Script" path="res://Scripts/SteamFriendsListItemUI.cs" id="1_d64lq"]
+[ext_resource type="Texture2D" uid="uid://df4t1jdkjr87y" path="res://UI/Icons/steam_default_profile_picture.png" id="2_87qdc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_b1h58"]
+font_size = 12
+
+[node name="PlayerListItem" type="HBoxContainer" node_paths=PackedStringArray("NameLabel", "StatusLabel", "ProfilePic", "Button", "SelectedRect")]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 15
+script = ExtResource("1_d64lq")
+NameLabel = NodePath("MarginForButtonOutline/ContentsHBox/NameAndStatusVBox/PlayerName")
+StatusLabel = NodePath("MarginForButtonOutline/ContentsHBox/NameAndStatusVBox/PlayerStatus")
+ProfilePic = NodePath("MarginForButtonOutline/ContentsHBox/ProfilePictureMargin/ProfilePicture")
+Button = NodePath("MarginForButtonOutline/MainButton")
+SelectedRect = NodePath("MarginForButtonOutline/SelectedRect")
+
+[node name="MarginForButtonOutline" type="MarginContainer" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+
+[node name="MainButton" type="Button" parent="MarginForButtonOutline"]
+layout_mode = 2
+
+[node name="SelectedRect" type="ColorRect" parent="MarginForButtonOutline"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ContentsHBox" type="HBoxContainer" parent="MarginForButtonOutline"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ProfilePictureMargin" type="MarginContainer" parent="MarginForButtonOutline/ContentsHBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="ProfilePicture" type="TextureRect" parent="MarginForButtonOutline/ContentsHBox/ProfilePictureMargin"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_87qdc")
+expand_mode = 1
+
+[node name="NameAndStatusVBox" type="VBoxContainer" parent="MarginForButtonOutline/ContentsHBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = -6
+alignment = 1
+
+[node name="PlayerName" type="Label" parent="MarginForButtonOutline/ContentsHBox/NameAndStatusVBox"]
+layout_mode = 2
+text = "[Loading...]"
+vertical_alignment = 1
+
+[node name="PlayerStatus" type="Label" parent="MarginForButtonOutline/ContentsHBox/NameAndStatusVBox"]
+layout_mode = 2
+text = "[Loading...]"
+label_settings = SubResource("LabelSettings_b1h58")
