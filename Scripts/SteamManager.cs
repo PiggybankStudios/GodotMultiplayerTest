@@ -47,6 +47,9 @@ public partial class SteamManager : HBoxContainer
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
+
+		Steam.RunCallbacks();
+
 		if (AnimatedContainer != null)
 		{
 			if (_triedToInitialize)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bgmckmfrjrdev"]
+[gd_scene load_steps=5 format=3 uid="uid://bgmckmfrjrdev"]
 
 [ext_resource type="PackedScene" uid="uid://bj46bvo8au5lj" path="res://Prefabs/PlayerPrefab.tscn" id="1_4x6rm"]
 [ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_n4ji6"]
+[ext_resource type="Script" path="res://Scripts/SteamMultiplayerPeerProvider.gd" id="3_mg0yb"]
 [ext_resource type="PackedScene" uid="uid://dyvb7pub5pnw7" path="res://Assets/Models/Map.blend" id="3_u3v1g"]
 
 [node name="GameRoot" type="Node3D" node_paths=PackedStringArray("MpSpawner", "SynchronizedNode")]
@@ -9,6 +10,7 @@ script = ExtResource("1_n4ji6")
 MpSpawner = NodePath("MultiplayerSpawner")
 SynchronizedNode = NodePath("Synchronized")
 PlayerPrefab = ExtResource("1_4x6rm")
+SteamMultiplayerPeerProviderScript = ExtResource("3_mg0yb")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Prefabs/PlayerPrefab.tscn", "res://Prefabs/Bullet.tscn")

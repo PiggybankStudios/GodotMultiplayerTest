@@ -23,6 +23,8 @@ public partial class GameManager : Node3D
 	Node SynchronizedNode;
 	[Export]
 	PackedScene PlayerPrefab;
+	[Export]
+	GDScript SteamMultiplayerPeerProviderScript;
 
 	//Both sides
 	Player self = null;
@@ -31,6 +33,8 @@ public partial class GameManager : Node3D
 	public long SelfId => playerIdMap.GetValueOrDefault(Multiplayer.GetUniqueId(), 0);
 	public Player Self => self;
 	public string LogName => $"{(Multiplayer.IsServer() ? "Server" : "Client")}{(isConnected ? SelfId.ToString() : "?")}";
+	GodotObject steamProvider = null;
+	MultiplayerPeer steamMultiplayerPeer = null;
 
 	//Server Side Only
 	long nextPlayerId = 1;
@@ -65,11 +69,16 @@ public partial class GameManager : Node3D
 			GD.Print($"Opening {(UseSteamSocket ? "Steam " : "")}server on port {Server_Port}...");
 			if (UseSteamSocket)
 			{
-				var peer = new SteamMultiplayerPeer();
-				Error createError = peer.CreateHost(Server_Port, new GArray());
-				GD.Print($"createError: {createError}");
-				peer.NetworkConnectionStatusChanged += this.Peer_NetworkConnectionStatusChanged;
-				Multiplayer.MultiplayerPeer = peer.ToMultiplayerPeer();
+				// var peer = new SteamMultiplayerPeer();
+				// Error createError = peer.CreateHost(Server_Port, new GArray());
+				// GD.Print($"createError: {createError}");
+				// //peer.NetworkConnectionStatusChanged += this.Peer_NetworkConnectionStatusChanged;
+				// Multiplayer.MultiplayerPeer = peer.ToMultiplayerPeer();
+				
+				steamProvider = (GodotObject)SteamMultiplayerPeerProviderScript.New();
+				MultiplayerPeer peer = steamProvider.Call("CreateHost", this, Server_Port).As<MultiplayerPeer>();
+				GD.Print($"Peer => {peer}. Status: {peer.GetConnectionStatus()}");
+				Multiplayer.MultiplayerPeer = peer;
 			}
 			else
 			{
@@ -86,14 +95,19 @@ public partial class GameManager : Node3D
 		}
 		else
 		{
-			GD.Print($"Connecting to {(UseSteamSocket ? "Steam " : "")}server at {Client_Address}:{Client_Port}...");
+			GD.Print($"Connecting to {(UseSteamSocket ? "Steam " : "")}server at {(UseSteamSocket ? Client_SteamUserId : $"{Client_Address}")}:{Client_Port}...");
 			if (UseSteamSocket)
 			{
-				var peer = new SteamMultiplayerPeer();
-				Error createError = peer.CreateClient(Client_SteamUserId, Client_Port, new GArray());
-				GD.Print($"createError: {createError}");
-				peer.NetworkConnectionStatusChanged += this.Peer_NetworkConnectionStatusChanged;
-				Multiplayer.MultiplayerPeer = peer.ToMultiplayerPeer();
+				//var peer = new SteamMultiplayerPeer();
+				//Error createError = peer.CreateClient(Client_SteamUserId, Client_Port, new GArray());
+				//GD.Print($"createError: {createError}");
+				////peer.NetworkConnectionStatusChanged += this.Peer_NetworkConnectionStatusChanged;
+				//Multiplayer.MultiplayerPeer = peer.ToMultiplayerPeer();
+
+				steamProvider = (GodotObject)SteamMultiplayerPeerProviderScript.New();
+				MultiplayerPeer peer = steamProvider.Call("CreateClient", this, Client_SteamUserId, Client_Port).As<MultiplayerPeer>();
+				GD.Print($"Peer => {peer}. Status: {peer.GetConnectionStatus()}");
+				Multiplayer.MultiplayerPeer = peer;
 			}
 			else
 			{
@@ -102,6 +116,14 @@ public partial class GameManager : Node3D
 				if (createError != Error.Ok) { GD.PrintErr($"CreateClient failed: {createError}"); }
 				Multiplayer.MultiplayerPeer = peer;
 			}
+		}
+	}
+
+	public override void _Process(double delta)
+	{
+		if (Input.IsKeyPressed(Key.A))
+		{
+			GD.Print($"Peer => {Multiplayer.MultiplayerPeer}. Status: {Multiplayer.MultiplayerPeer.GetConnectionStatus()}");
 		}
 	}
 
