@@ -3,4 +3,5 @@
 .vs/
 *.sublime-workspace
 *.csproj.old
+*.csproj.old.*
 build/

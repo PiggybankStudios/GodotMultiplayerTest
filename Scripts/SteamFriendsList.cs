@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using GDictionary = Godot.Collections.Dictionary;
 using System.Runtime.Serialization;
+using static SteamFriendsList;
 
 public partial class SteamFriendsList : Node
 {
@@ -113,6 +114,15 @@ public partial class SteamFriendsList : Node
 
 		if (SteamManager.Initialized)
 		{
+			{
+				ulong localUserId = Steam.GetSteamID();
+				string localUserName = Steam.GetFriendPersonaName(localUserId);
+				uint localUserGameId = (uint)SteamManager.AppId;
+				Texture2D localProfileTexture = SteamManager.GetProfilePictureForUser(localUserId);
+				Friend localUser = new Friend(localUserId, localUserName, localProfileTexture, Steam.PersonaState.Online, localUserGameId);
+				_friends.Add(localUser);
+			}
+
 			int numFriends = Steam.GetFriendCount(Steam.FriendFlags.Immediate);
 			if (!isRefreshing) { GD.Print($"Found {numFriends} Steam Friends"); }
 			for (int fIndex = 0; fIndex < numFriends; fIndex++)
