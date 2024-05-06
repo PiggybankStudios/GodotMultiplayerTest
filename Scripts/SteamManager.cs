@@ -48,7 +48,10 @@ public partial class SteamManager : HBoxContainer
 	{
 		base._Process(delta);
 
-		Steam.RunCallbacks();
+		if (_initializedSuccessfully)
+		{
+			Steam.RunCallbacks();
+		}
 
 		if (AnimatedContainer != null)
 		{
@@ -119,7 +122,6 @@ public partial class SteamManager : HBoxContainer
 	{
 		string result = null;
 
-
 		if (!_triedToInitialize)
 		{
 			GDictionary initResult = Steam.SteamInit();
@@ -130,6 +132,8 @@ public partial class SteamManager : HBoxContainer
 				_initializedSuccessfully = true;
 				_steamAppId = Steam.GetAppID();
 				_steamUserId = Steam.GetSteamID();
+
+				Steam.InitRelayNetworkAccess();
 			}
 			else
 			{

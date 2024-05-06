@@ -69,12 +69,6 @@ public partial class GameManager : Node3D
 			GD.Print($"Opening {(UseSteamSocket ? "Steam " : "")}server on port {Server_Port}...");
 			if (UseSteamSocket)
 			{
-				// var peer = new SteamMultiplayerPeer();
-				// Error createError = peer.CreateHost(Server_Port, new GArray());
-				// GD.Print($"createError: {createError}");
-				// //peer.NetworkConnectionStatusChanged += this.Peer_NetworkConnectionStatusChanged;
-				// Multiplayer.MultiplayerPeer = peer.ToMultiplayerPeer();
-				
 				steamProvider = (GodotObject)SteamMultiplayerPeerProviderScript.New();
 				MultiplayerPeer peer = steamProvider.Call("CreateHost", this, Server_Port).As<MultiplayerPeer>();
 				GD.Print($"Peer => {peer}. Status: {peer.GetConnectionStatus()}");
@@ -86,24 +80,19 @@ public partial class GameManager : Node3D
 				uint steamSocket = Steam.CreateListenSocketP2P(7700, new GArray());
 				Error createError = peer.CreateServer(Server_Port);
 				if (createError != Error.Ok) { GD.PrintErr($"CreateServer failed: {createError}"); }
-				isConnected = true;
 				Multiplayer.MultiplayerPeer = peer;
-				ourId = ServerGetPlayerId(Multiplayer.GetUniqueId());
-				self = AddPlayer(ourId, Client_Name);
-				self.Initialize(this, SynchronizedNode);
 			}
+
+			isConnected = true;
+			ourId = ServerGetPlayerId(Multiplayer.GetUniqueId());
+			self = AddPlayer(ourId, Client_Name);
+			self.Initialize(this, SynchronizedNode);
 		}
 		else
 		{
 			GD.Print($"Connecting to {(UseSteamSocket ? "Steam " : "")}server at {(UseSteamSocket ? Client_SteamUserId : $"{Client_Address}")}:{Client_Port}...");
 			if (UseSteamSocket)
 			{
-				//var peer = new SteamMultiplayerPeer();
-				//Error createError = peer.CreateClient(Client_SteamUserId, Client_Port, new GArray());
-				//GD.Print($"createError: {createError}");
-				////peer.NetworkConnectionStatusChanged += this.Peer_NetworkConnectionStatusChanged;
-				//Multiplayer.MultiplayerPeer = peer.ToMultiplayerPeer();
-
 				steamProvider = (GodotObject)SteamMultiplayerPeerProviderScript.New();
 				MultiplayerPeer peer = steamProvider.Call("CreateClient", this, Client_SteamUserId, Client_Port).As<MultiplayerPeer>();
 				GD.Print($"Peer => {peer}. Status: {peer.GetConnectionStatus()}");
